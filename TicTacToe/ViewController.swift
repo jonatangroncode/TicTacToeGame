@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     var firstTurn = Turn.Cross
     var currentTurn = Turn.Cross
     
+    //constant strings 
     var NOUGHT = "O"
     var CROSS = "X"
     
@@ -46,9 +47,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //call function to fill the list
         initboard()
     }
     
+    //initializes the the board and popularize the list with the buttons in the grid
     func initboard()
     {
         board.append(a1)
@@ -70,20 +73,24 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
     @IBAction func boardTapAction(_ sender: UIButton) {
         
         addToBoardGrid(sender)
         
+        //if there is three O in a row the score change and result alert gets a titel
         if checkForVictory(CROSS){
             crossessScore += 1
             resultAlert(title: "Crosses Win!")
         }
         
+        //if there is three O in a row the score change and result alert gets a titel
         if checkForVictory(NOUGHT){
             noughtsScore += 1
             resultAlert(title: "Noughts Win!")
         }
         
+        //if all button has been pressed its a draw
         if (fullBoard())
         {
             resultAlert(title: "Draw")
@@ -91,6 +98,7 @@ class ViewController: UIViewController {
         }
     }
     
+    //Checking every three in a row that X or O can have
     func checkForVictory(_ s :String) -> Bool {
         
         // Horizontal victory
@@ -141,24 +149,27 @@ class ViewController: UIViewController {
         return false
     }
     
+    //controll if button title is the same as symbol then return true
     func thisSymbol(_ button: UIButton, _ symbol: String) -> Bool {
         
         return button.title(for: .normal) == symbol
     }
     
     
+    //Shows a message in the end of the game who won, the current score and a button to restart a new game
     func resultAlert(title: String)
     {
         let message = "\nNoughts " + String(noughtsScore) + "\n\nCrosses " + String(crossessScore)
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Reset", style: .default, handler: { (_) in
-            self.resetBoard()
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet) //Showing title and message
+        ac.addAction(UIAlertAction(title: "Reset", style: .default, handler: { (_) in //ResetButton
+            self.resetBoard() //Clear the board
         }))
         self.present(ac, animated: true)
         
         
     }
     
+    //Resetsset all button titels to nill and enabels them
     func resetBoard()
     {
         for button in board{
@@ -167,6 +178,8 @@ class ViewController: UIViewController {
             button.isEnabled = true
             
         }
+        
+        //change person that starts next game
         if (firstTurn == Turn.Nought)
         {
             firstTurn = Turn.Cross
@@ -183,7 +196,7 @@ class ViewController: UIViewController {
     }
     
     
-    
+    //Checks for emty space on the board, button without titel
     func fullBoard() -> Bool {
         for button in board {
             if button.title(for: .normal) == nil{
@@ -193,24 +206,16 @@ class ViewController: UIViewController {
         return true
     }
     
-    
+    //If the butten pressed dont have a title change title and turnlabel by using a ternary operator
     func addToBoardGrid(_ sender: UIButton) {
         if sender.title(for: .normal) == nil {
-            if (currentTurn == Turn.Nought) {
-                sender.setTitle(NOUGHT, for: .normal)
-                currentTurn = Turn.Cross
-                turnLabal.text = CROSS
-            }
-            else if (currentTurn == Turn.Cross) {
-                sender.setTitle(CROSS, for: .normal)
-                currentTurn = Turn.Nought
-                turnLabal.text = NOUGHT
+            let newTitle = (currentTurn == Turn.Nought) ? NOUGHT : CROSS
+            sender.setTitle(newTitle, for: .normal)
+            currentTurn = (currentTurn == Turn.Nought) ? Turn.Cross : Turn.Nought
+            turnLabal.text = (currentTurn == Turn.Nought) ? NOUGHT : CROSS
             
-            }
-            
-            //Remove a animation X or O that already been placed
+            // Remove the animation if the button already has been pressed
             sender.isEnabled = false
-            
         }
     }
    
