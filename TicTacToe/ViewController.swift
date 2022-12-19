@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // to know whos turn it is, it defines turn witch can be eiter nought or cross depending whos turn it is
+    // To know whos turn it is, it defines turn witch can be eiter nought or cross depending whos turn it is
     enum Turn {
         case Nought
         case Cross
@@ -29,11 +29,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var c2: UIButton!
     @IBOutlet weak var c3: UIButton!
     
-    //initializes with values from the enum and are set to cross so we know whos starting
+    //Initializes with values from the enum and are set to cross so we know whos starting
     var firstTurn = Turn.Cross
     var currentTurn = Turn.Cross
     
-    //constant strings 
+    //Strings
     var NOUGHT = "O"
     var CROSS = "X"
     
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
         
         addToBoardGrid(sender)
         
-        //if there is three O in a row the score change and result alert gets a titel
+        //if there is three x in a row the score change and result alert gets a titel
         if checkForVictory(CROSS){
             crossessScore += 1
             resultAlert(title: "Crosses Win!")
@@ -149,7 +149,7 @@ class ViewController: UIViewController {
         return false
     }
     
-    //controll if button title is the same as symbol then return true
+    //controll if button title is the same as symbol then return
     func thisSymbol(_ button: UIButton, _ symbol: String) -> Bool {
         
         return button.title(for: .normal) == symbol
@@ -210,9 +210,9 @@ class ViewController: UIViewController {
     func addToBoardGrid(_ sender: UIButton) {
         if sender.title(for: .normal) == nil {
             let newTitle = (currentTurn == Turn.Nought) ? NOUGHT : CROSS
-            sender.setTitle(newTitle, for: .normal)
-            currentTurn = (currentTurn == Turn.Nought) ? Turn.Cross : Turn.Nought
-            turnLabal.text = (currentTurn == Turn.Nought) ? NOUGHT : CROSS
+            sender.setTitle(newTitle, for: .normal)                                     //change button title
+            currentTurn = (currentTurn == Turn.Nought) ? Turn.Cross : Turn.Nought  //change player turn
+            turnLabal.text = (currentTurn == Turn.Nought) ? NOUGHT : CROSS    //change label for user
             
             // Remove the animation if the button already has been pressed
             sender.isEnabled = false
